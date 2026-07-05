@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.crm.lead.mapper.LeadMapper">
+
+    <insert id="insert" parameterType="com.crm.lead.entity.CrmLead">
+        insert into crm_lead
+        (
+            customer_name,
+            phone,
+            company_name,
+            source,
+            status,
+            owner_id,
+            last_follow_time,
+            next_follow_time,
+            remark
+        )
+        values
+            (
+                #{customerName},
+                #{phone},
+                #{companyName},
+                #{source},
+                #{status},
+                #{ownerId},
+                #{lastFollowTime},
+                #{nextFollowTime},
+                #{remark}
+            )
+    </insert>
+
+    <select id="selectAll" resultType="com.crm.lead.entity.CrmLead">
+        select
+            id,
+            customer_name,
+            phone,
+            company_name,
+            source,
+            status,
+            owner_id,
+            last_follow_time,
+            next_follow_time,
+            remark,
+            create_time,
+            update_time
+        from crm_lead
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.crm.lead.entity.CrmLead">
+        select
+            id,
+            customer_name,
+            phone,
+            company_name,
+            source,
+            status,
+            owner_id,
+            last_follow_time,
+            next_follow_time,
+            remark,
+            create_time,
+            update_time
+        from crm_lead
+        where id = #{id}
+    </select>
+
+    <update id="claimLead">
+        update crm_lead
+        set owner_id = #{ownerId},
+            status = #{status}
+        where id = #{id}
+    </update>
+
+    <update id="updateAfterFollow">
+        update crm_lead
+        set status = #{status},
+            last_follow_time = #{lastFollowTime},
+            next_follow_time = #{nextFollowTime}
+        where id = #{id}
+    </update>
+
+</mapper>
